@@ -12,9 +12,6 @@
  */
 class YFKeypad {
  public:
-  /**
-   * @brief 默认I2C地址
-   */
   static constexpr uint8_t DefAddress = 0x65; /**< 0x65: 默认I2C地址 */
 
   /**
@@ -84,7 +81,6 @@ class YFKeypad {
 
   /**
    * @brief 扫描按键，在函数loop中调用，每次循环先调用该函数再查询按键状态
-   *
    */
   void Tick();
 
