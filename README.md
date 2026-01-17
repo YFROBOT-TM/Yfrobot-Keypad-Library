@@ -105,7 +105,7 @@ void loop() {
 ## API 参考
 
 ### 构造函数
-- `YFKeypad(TwoWire& wire = Wire, const uint8_t i2c_address = kDefaultI2cAddress)`: 创建键盘对象，可指定 I2C 接口和地址
+- `YFKeypad(TwoWire& wire = Wire, const uint8_t i2c_address = DefAddress)`: 创建键盘对象，可指定 I2C 接口和地址
 
 ### 初始化
 - `ErrorCode Initialize()`: 初始化键盘，返回错误码

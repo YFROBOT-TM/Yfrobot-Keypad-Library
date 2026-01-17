@@ -38,7 +38,7 @@ kKeyStatePressing	LITERAL1
 kKeyStateReleased	LITERAL1
 
 # 常量定义 - 默认地址
-kDefaultI2cAddress	LITERAL1
+DefAddress	LITERAL1
 
 # 常量定义 - 错误码
 kOK	LITERAL1
