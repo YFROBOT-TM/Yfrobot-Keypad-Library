@@ -104,8 +104,8 @@ YFKeypad::KeyState YFKeypad::GetKeyState(const Key key) const {
  * @brief 获取当前按下的按键字符
  * @return 当前按下的按键字符，无按键按下返回'\0'
  */
-char YFKeypad::GetCurrentPressedKey() const {
-  return GetCurrentPressedKey(mode_);
+char YFKeypad::GetPressedKey() const {
+  return GetPressedKey(mode_);
 }
 
 /**
@@ -113,7 +113,7 @@ char YFKeypad::GetCurrentPressedKey() const {
  * @param mode 键盘模式，参考枚举 @ref Mode
  * @return 当前按下的按键字符，无按键按下返回'\0'
  */
-char YFKeypad::GetCurrentPressedKey(YFKeypad::Mode mode) const {
+char YFKeypad::GetPressedKey(YFKeypad::Mode mode) const {
   // 遍历按键映射表，查找当前按下的按键
   static constexpr struct {
     Key key;  // 按键
@@ -132,8 +132,8 @@ char YFKeypad::GetCurrentPressedKey(YFKeypad::Mode mode) const {
     {KEY0, '0', '0'},
     {KEYA, 'A', '+'},
     {KEYB, 'B', '-'},
-    {KEYC, 'C', '×'},
-    {KEYD, 'D', '÷'},
+    {KEYC, 'C', '*'},
+    {KEYD, 'D', '/'},
     {KEYAsterisk, '*', '.'},
     {KEYNumberSign, '#', '='}
   };

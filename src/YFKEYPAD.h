@@ -129,8 +129,8 @@ class YFKeypad {
    *
    * @return 当前按下的按键字符
    */
-  char GetCurrentPressedKey() const;
-  char GetCurrentPressedKey(YFKeypad::Mode mode) const;
+  char GetPressedKey() const;
+  char GetPressedKey(YFKeypad::Mode mode) const;
 
   /**
    * @brief 设置键盘模式
