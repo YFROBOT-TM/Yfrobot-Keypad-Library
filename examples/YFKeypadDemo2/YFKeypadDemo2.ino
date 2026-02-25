@@ -7,7 +7,6 @@
  *
  * 本示例演示了如何使用YFROBOT 4x4矩阵键盘库检测按键状态
  * 包括按键按下、按住、释放和空闲状态
- * 以及如何使用双模功能（普通模式和计算器模式）
  */
 
 #include <Wire.h>
@@ -40,7 +39,8 @@ void setup() {
 
   // 设置键盘模式
   // Keypad.SetMode(YFKeypad::ModeNor);  // 普通模式(默认)
-  Keypad.SetMode(YFKeypad::ModeCal);  // 计算器模式
+  // Keypad.SetMode(YFKeypad::ModeCal);  // 计算器模式
+
 
   // 打印按键布局说明
   Serial.println();
@@ -101,8 +101,8 @@ void checkAndPrintKeyState(YFKeypad::Key key, const char* keyName) {
       break;
     case YFKeypad::StaHolding:
       // 按住状态可以注释掉，避免输出过多
-      // Serial.print(keyName);
-      // Serial.println(" Holding");
+      Serial.print(keyName);
+      Serial.println(" Holding");
       break;
     case YFKeypad::StaReleased:
       Serial.print(keyName);

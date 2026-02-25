@@ -72,6 +72,16 @@ class YFKeypad {
    * @param [in] i2c_address 手势识别传感器I2C地址，默认值为0x65
    */
   explicit YFKeypad(TwoWire& wire = Wire, const uint8_t i2c_address = DefAddress);
+  
+  /**
+   * @brief 长按阈值（毫秒）
+   */
+  static constexpr uint64_t kLongPressThresholdMs = 1000;
+  
+  /**
+   * @brief 最大按键数量
+   */
+  static constexpr uint8_t kMaxKeys = 16;
 
   /**
    * @brief 初始化
@@ -93,12 +103,19 @@ class YFKeypad {
   bool Pressed(const Key key) const;
 
   /**
-   * @brief 查询按键是否被按住
+   * @brief 查询按键是否被按住（持续按下状态）
    *
    * @param key 按键，参考枚举 @ref Key
-   * @return 返回true代表按键被按住
+   * @return 返回true代表按键正在被按下
    */
   bool Holding(const Key key) const;
+  /**
+   * @brief 查询按键是否被长按（按下时间超过阈值）
+   *
+   * @param key 按键，参考枚举 @ref Key
+   * @return 返回true代表按键被长按
+   */
+  bool LongPressed(const Key key) const;
 
   /**
    * @brief 查询按键是否被释放
@@ -155,7 +172,20 @@ class YFKeypad {
   const uint8_t i2c_address_ = DefAddress;
   Debouncer<Key> key_;
   Key last_key_ = KEYNone;
-  Mode mode_ = ModeNor; // 默认普通模式
+  Mode mode_ = ModeNor;
+  
+  // 按键状态跟踪（用于长按检测）
+  struct KeyPressState {
+    uint64_t press_time = UINT64_MAX;  // 按下时间
+  };
+  
+  // 按键状态数组
+  mutable KeyPressState key_states_[16];
+  
+  // 辅助函数：将按键转换为索引
+  uint8_t KeyToIndex(Key key) const {
+    return __builtin_ctz(static_cast<uint16_t>(key));
+  }
 };
 
 #endif // YFROBOT_MATRIX_KEY_BOARD_H_

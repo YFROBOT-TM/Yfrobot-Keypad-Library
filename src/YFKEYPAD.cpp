@@ -39,8 +39,26 @@ bool YFKeypad::begin() {
  * 必须在每次loop中调用，更新按键状态
  */
 void YFKeypad::Tick() {
-  last_key_ = key_();    // 保存上一次的按键状态
-  key_ = ReadKey();      // 读取当前的按键状态
+  Key current_key = ReadKey();  // 读取当前的按键状态
+  Key previous_key = key_();    // 获取上一次的稳定按键状态
+  uint64_t current_time = millis();
+  
+  // 更新每个按键的状态（用于长按检测）
+  for (int i = 0; i < 16; i++) {
+    Key key_bit = static_cast<Key>(1 << i);
+    KeyPressState& state = key_states_[i];
+    
+    if ((current_key & key_bit) != 0 && (previous_key & key_bit) == 0) {
+      // 按键刚被按下，记录按下时间
+      state.press_time = current_time;
+    } else if ((current_key & key_bit) == 0 && (previous_key & key_bit) != 0) {
+      // 按键刚被释放，重置按下时间
+      state.press_time = UINT64_MAX;
+    }
+  }
+  
+  last_key_ = previous_key;    // 保存上一次的按键状态
+  key_ = current_key;          // 更新当前按键状态
 }
 
 /**
@@ -54,13 +72,30 @@ bool YFKeypad::Pressed(const YFKeypad::Key key) const {
 }
 
 /**
- * @brief 判断按键是否被按住
+ * @brief 判断按键是否被按住（持续按下状态）
  * @param key 要检查的按键
- * @return 按键被按住返回true，否则返回false
+ * @return 按键正在被按下返回true，否则返回false
  */
 bool YFKeypad::Holding(const YFKeypad::Key key) const {
-  // 上一次按键状态为1，当前按键状态为1，说明按键被按住
-  return (last_key_ & key) != 0 && (key_() & key) != 0;
+  // 检查当前按键是否处于按下状态
+  return (key_() & key) != 0;
+}
+
+/**
+ * @brief 判断按键是否被长按
+ * @param key 要检查的按键
+ * @return 按键被长按返回true，否则返回false
+ */
+bool YFKeypad::LongPressed(const YFKeypad::Key key) const {
+  uint8_t index = KeyToIndex(key);
+  const KeyPressState& state = key_states_[index];
+  
+  // 检查按键是否正在被按下且按下时间超过阈值
+  bool isPressed = (key_() & key) != 0;
+  bool isLongPressed = (state.press_time != UINT64_MAX) && 
+                       (millis() - state.press_time >= kLongPressThresholdMs);
+  
+  return isPressed && isLongPressed;
 }
 
 /**
