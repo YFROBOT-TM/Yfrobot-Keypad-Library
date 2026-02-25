@@ -8,7 +8,6 @@
  * 本示例演示了如何使用YFROBOT 4x4矩阵键盘库检测按键状态
  * 包括按键按下、按住、释放和空闲状态
  */
-
 #include <Wire.h>
 #include <YFKeypad.h>
 
@@ -22,7 +21,7 @@ void setup() {
   Serial.println("Initializing Keypad...");
 
 #if defined(ESP32)
-  Wire.begin(kI2cPinSda, kI2cPinScl);
+  Wire.begin(21, 22);
 #else
   Wire.begin();
 #endif

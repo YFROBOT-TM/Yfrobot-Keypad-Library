@@ -38,7 +38,7 @@ void setup() {
   Serial.println("Initializing Keypad...");
 
 #if defined(ESP32)
-  Wire.begin(kI2cPinSda, kI2cPinScl);
+  Wire.begin(21, 22);
 #else
   Wire.begin();
 #endif

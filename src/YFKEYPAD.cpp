@@ -5,7 +5,7 @@
  * @brief 构造函数
  * 初始化YFKeypad对象，设置I2C接口和地址默认不支持修改
  */
-YFKeypad::YFKeypad(TwoWire& wire, const uint8_t i2c_address = DefAddress)
+YFKeypad::YFKeypad(TwoWire& wire, const uint8_t i2c_address)
     : wire_(wire), i2c_address_(i2c_address), key_(KEYNone) {
 }
 
