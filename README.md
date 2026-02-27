@@ -2,6 +2,7 @@
 
 ## 概述
 YFROBOT 4x4 Matrix Keypad Library 是一个专为 YFROBOT 4x4 矩阵触摸键盘设计的 Arduino 库。该键盘基于 VK36N16I 触摸芯片，通过 I2C 接口与 Arduino 通信，提供了简单易用的 API 来检测按键的按下、按住和释放状态。
+采购：https://item.taobao.com/item.htm?id=1017263570742
 
 ## 产品特性
 - 基于 VK36N16I 触摸芯片，提供稳定的触摸检测
